@@ -18,7 +18,14 @@ console.log('---Check service workder is enable');
 console.log('navigator.serviceWorker: ', navigator.serviceWorker);
 
 console.log('---Try to store Blob object in indexedDB');
-storeBlobToIndexedDB();
+const databaseName = 'testIndexedDB';
+
+isDatabaseExists(databaseName).then(exists => {
+    if (exists) {
+        window.indexedDB.deleteDatabase(databaseName)
+    }
+    storeBlobToIndexedDB(databaseName);
+});
 
 
 
@@ -29,34 +36,39 @@ storeBlobToIndexedDB();
 
 
 
-function storeBlobToIndexedDB() {
+
+function storeBlobToIndexedDB(databaseName) {
     try {
-
-        const db = window.indexedDB.open('testIndexedDB', 1);
+        const db = window.indexedDB.open(databaseName, 1);
         console.log('database is opened ');
         db.onupgradeneeded = function (i) {
             const res = i.target?.result
 
-            const objectStore = res.createObjectStore('testObjectStore', {
-                autoIncrement: true
-            });
-            console.log('ObjectStore is created');
+            try {
+                const objectStore = res.createObjectStore('testObjectStore', {
+                    autoIncrement: true
+                });
+                console.log('ObjectStore is created');
 
-            const studentA = {
-                name: 'Andres',
-                lastname: 'Valdivia',
-                email: 'pandres@pandres.com',
-                age: 22
-            };
-            objectStore.put(studentA);
-            console.log('JS Object is created');
+                const studentA = {
+                    name: 'Andres',
+                    lastname: 'Valdivia',
+                    email: 'pandres@pandres.com',
+                    age: 22
+                };
+                objectStore.put(studentA);
+                console.log('JS Object is created');
 
-            const blobObj = new Blob();
-            console.log('Size of blob object: ', blobObj.size);
-            objectStore.put(blobObj)
-            console.log('Blob object is created');
-                
-            
+                const blobObj = new Blob();
+                console.log('Size of blob object: ', blobObj.size);
+                objectStore.put(blobObj)
+                console.log('Blob object is created');
+            } catch (ex) {
+                console.log(ex)
+            }
+            finally {
+                res.close()
+            }
         }
     } catch (e) {
         console.log(e)
@@ -81,4 +93,9 @@ function getLocalStorage(){
             )
         }
     )
+}
+
+async function isDatabaseExists(dbName) {
+    const databases = await indexedDB.databases();
+    return databases.some(db => db.name === dbName);
 }
