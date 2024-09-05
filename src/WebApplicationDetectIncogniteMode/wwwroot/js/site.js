@@ -15,7 +15,7 @@ try {
 }
 
 console.log('---Check service workder is enable');
-console.log('navigator.serviceWorker: ', navigator.serviceWorker);
+alert('navigator.serviceWorker: ', navigator.serviceWorker);
 
 console.log('---Try to store Blob object in indexedDB');
 const databaseName = 'testIndexedDB';
@@ -40,7 +40,7 @@ isDatabaseExists(databaseName).then(exists => {
 function storeBlobToIndexedDB(databaseName) {
     try {
         const db = window.indexedDB.open(databaseName, 1);
-        console.log('database is opened ');
+        alert('database is opened ');
         db.onupgradeneeded = function (i) {
             const res = i.target?.result
 
@@ -48,7 +48,7 @@ function storeBlobToIndexedDB(databaseName) {
                 const objectStore = res.createObjectStore('testObjectStore', {
                     autoIncrement: true
                 });
-                console.log('ObjectStore is created');
+                alert('ObjectStore is created');
 
                 const studentA = {
                     name: 'Andres',
@@ -62,16 +62,16 @@ function storeBlobToIndexedDB(databaseName) {
                 const blobObj = new Blob();
                 console.log('Size of blob object: ', blobObj.size);
                 objectStore.put(blobObj)
-                console.log('Blob object is created');
+                alert('Blob object is created');
             } catch (ex) {
-                console.log(ex)
+                alert(ex)
             }
             finally {
                 res.close()
             }
         }
     } catch (e) {
-        console.log(e)
+        alert(e)
     }
 }
 
@@ -96,6 +96,11 @@ function getLocalStorage(){
 }
 
 async function isDatabaseExists(dbName) {
-    const databases = await indexedDB.databases();
-    return databases.some(db => db.name === dbName);
+    try {
+        const databases = await indexedDB.databases();
+        return databases.some(db => db.name === dbName);
+    } catch (e) {
+        alert("error checkdatabase exist " + e);
+    }
+    
 }
