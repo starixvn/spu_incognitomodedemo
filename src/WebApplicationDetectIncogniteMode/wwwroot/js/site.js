@@ -14,8 +14,13 @@ try {
     console.log('Browser does not support');
 }
 
-console.log('---Check service workder is enable');
-alert('navigator.serviceWorker: ', navigator.serviceWorker);
+try {
+    console.log('---Check service workder is enable');
+    alert('navigator.serviceWorker: ', navigator.serviceWorker);
+
+} catch (e) {
+    alert("error service worker " + e);
+}
 
 console.log('---Try to store Blob object in indexedDB');
 const databaseName = 'testIndexedDB';
