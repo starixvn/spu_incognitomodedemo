@@ -61,6 +61,114 @@
         }
 
 
+        //Write your JavaScript code.
+        console.log('---Compare memory with storage quota');
+        try {
+           let jsHeapSizeLimit = performance.memory.jsHeapSizeLimit;
+           console.log('jsHeapSizeLimit (MB): ', Math.round(jsHeapSizeLimit / (1024 * 1024)));
+           console.log('jsHeapSizeLimit * 2 (MB): ', Math.round(jsHeapSizeLimit / (1024 * 1024)) * 2);
+           getLocalStorage();
+        } catch (e) {
+           console.log('Browser does not support');
+        }
+
+        try {
+           console.log('---Check service workder is enable');
+           addCode('navigator.serviceWorker: ' + typeof(navigator.serviceWorker));
+
+        } catch (e) {
+           addCode("error service worker " + e.message);
+        }
+
+        console.log('---Try to store Blob object in indexedDB');
+        const databaseName = 'testIndexedDB';
+
+        isDatabaseExists(databaseName).then(exists => {
+           if (exists) {
+               window.indexedDB.deleteDatabase(databaseName);
+           }
+           storeBlobToIndexedDB(databaseName);
+        });
+
+
+
+
+
+
+
+
+
+
+
+        function storeBlobToIndexedDB(databaseName) {
+            try {
+                const db = window.indexedDB.open(databaseName, 1);
+                addCode('database is opened ');
+                db.onupgradeneeded = function (i) {
+                    const res = i.target?.result;
+
+                    try {
+                        const objectStore = res.createObjectStore('testObjectStore', {
+                            autoIncrement: true
+                        });
+                        addCode('ObjectStore is created');
+
+                        const studentA = {
+                            name: 'Andres',
+                            lastname: 'Valdivia',
+                            email: 'pandres@pandres.com',
+                            age: 22
+                        };
+                        objectStore.put(studentA);
+                        console.log('JS Object is created');
+
+                        const blobObj = new Blob();
+                        console.log('Size of blob object: ', blobObj.size);
+                        objectStore.put(blobObj);
+                        addCode('Blob object is created');
+                    } catch (ex) {
+                        addCode("error add data to indexedDB " + ex.message);
+                    }
+                    finally {
+                        res.close();
+                    }
+                }
+            } catch (e) {
+                addCode("error open indexedDB " + e.message);
+            }
+        }
+
+
+        function getLocalStorage() {
+            navigator.webkitTemporaryStorage.queryUsageAndQuota(
+                function (usage, quota) {
+                    //console.log('Storage used: ', usage);
+                    //console.log('Storage quota: ', quota);
+                    const quotaInMib = Math.round(quota / (1024 * 1024));
+                    console.log('Storage quota (MB): ', quotaInMib);
+                },
+                function (e) {
+                    reject(
+                        new Error(
+                            'detectIncognito somehow failed to query storage quota: ' +
+                            e.message
+                        )
+                    );
+                }
+            )
+        }
+
+        async function isDatabaseExists(dbName) {
+            try {
+                const databases = await indexedDB.databases();
+                return databases.some(db => db.name === dbName);
+            } catch (e) {
+                addCode("error checkdatabase exist " + e.message);
+            }
+
+        }
+
+
     </script>
 
 </div>
