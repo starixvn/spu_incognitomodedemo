@@ -67,11 +67,11 @@
         }
 
         function storeBlobToIndexedDB(databaseName) {
-            let b = typeof (window.indexedDB);
-            addCode("indexedDB " + b);
+            const db = window.indexedDB.open(databaseName, 1);
+            addCode('database is opened ');
         }
 
-        const databaseName = 'testIndexedDB';
+        const databaseName = 'testIndexedDB1';
         storeBlobToIndexedDB(databaseName);
 
     </script>
