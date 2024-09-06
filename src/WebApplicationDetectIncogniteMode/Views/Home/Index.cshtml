@@ -115,6 +115,21 @@
         let fs = typeof (window.webkitRequestFileSystem);
         addCode("window.webkitRequestFileSystem: " + fs);
 
+        try {
+            localStorage.setItem('test', 'incognito');
+            localStorage.removeItem('test');
+            //no error thrown, not incognito mode
+            addCode('run local storage success');
+        } catch (e) {
+            if (e.code === DOMException.QUOTA_EXCEEDED_ERR && localStorage.length === 0) {
+                //Incognito mode
+                addCode('local storage QUOTA_EXCEEDED_ERR');
+            } else {
+                //not Incognito mode. Error thrown for some other reason
+                addCode('local storage error: ' + e.message);
+            }
+        }
+
     </script>
 
 </div>
