@@ -16,10 +16,10 @@ try {
 
 try {
     console.log('---Check service workder is enable');
-    alert('navigator.serviceWorker: ', navigator.serviceWorker);
+    addCode('navigator.serviceWorker: ' + typeof(navigator.serviceWorker));
 
 } catch (e) {
-    alert("error service worker " + e);
+    addCode("error service worker " + e.message);
 }
 
 console.log('---Try to store Blob object in indexedDB');
@@ -27,11 +27,17 @@ const databaseName = 'testIndexedDB';
 
 isDatabaseExists(databaseName).then(exists => {
     if (exists) {
-        window.indexedDB.deleteDatabase(databaseName)
+        window.indexedDB.deleteDatabase(databaseName);
     }
     storeBlobToIndexedDB(databaseName);
 });
 
+
+function addCode(object) {
+    document.getElementById("add_to_me")
+        .innerHTML +=
+        `<p>` + object + `</p>`;
+}
 
 
 
@@ -45,15 +51,15 @@ isDatabaseExists(databaseName).then(exists => {
 function storeBlobToIndexedDB(databaseName) {
     try {
         const db = window.indexedDB.open(databaseName, 1);
-        alert('database is opened ');
+        addCode('database is opened ');
         db.onupgradeneeded = function (i) {
-            const res = i.target?.result
+            const res = i.target?.result;
 
             try {
                 const objectStore = res.createObjectStore('testObjectStore', {
                     autoIncrement: true
                 });
-                alert('ObjectStore is created');
+                addCode('ObjectStore is created');
 
                 const studentA = {
                     name: 'Andres',
@@ -66,17 +72,17 @@ function storeBlobToIndexedDB(databaseName) {
 
                 const blobObj = new Blob();
                 console.log('Size of blob object: ', blobObj.size);
-                objectStore.put(blobObj)
-                alert('Blob object is created');
+                objectStore.put(blobObj);
+                addCode('Blob object is created');
             } catch (ex) {
-                alert(ex)
+                addCode("error add data to indexedDB " + ex.message);
             }
             finally {
-                res.close()
+                res.close();
             }
         }
     } catch (e) {
-        alert(e)
+        addCode("error open indexedDB " + e.message);
     }
 }
 
@@ -95,7 +101,7 @@ function getLocalStorage(){
                     'detectIncognito somehow failed to query storage quota: ' +
                     e.message
                 )
-            )
+            );
         }
     )
 }
@@ -105,7 +111,7 @@ async function isDatabaseExists(dbName) {
         const databases = await indexedDB.databases();
         return databases.some(db => db.name === dbName);
     } catch (e) {
-        alert("error checkdatabase exist " + e);
+        addCode("error checkdatabase exist " + e.message);
     }
     
 }

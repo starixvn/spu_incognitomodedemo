@@ -1,2 +1,3 @@
 /src/WebApplicationDetectIncogniteMode/bin/*
 /src/WebApplicationDetectIncogniteMode/obj/*
+/.vs/*
