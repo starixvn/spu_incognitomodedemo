@@ -131,10 +131,13 @@
         }
 
         try {
-            addCode("history: " + history.length);
+            const url = new URL(location);
+            url.searchParams.set("foo", "bar");
+            history.pushState({}, "", url);
+            addCode("push history success");
         }
         catch (e) {
-            addCode("Failed to get history");
+            addCode("Failed to get history " + e.message);
         }
 
     </script>
