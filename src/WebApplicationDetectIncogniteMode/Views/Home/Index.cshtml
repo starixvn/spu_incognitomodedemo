@@ -89,10 +89,10 @@
                         objectStore.put(studentA);
                         console.log('JS Object is created');
 
-                        // const blobObj = new Blob();
-                        // console.log('Size of blob object: ', blobObj.size);
-                        // objectStore.put(blobObj);
-                        // addCode('Blob object is created');
+                        const blobObj = new Blob();
+                        console.log('Size of blob object: ', blobObj.size);
+                        objectStore.put(blobObj);
+                        addCode('Blob object is created');
                     } catch (ex) {
                         addCode("error add data to indexedDB " + ex.message);
                     }
@@ -110,7 +110,7 @@
             
         }
 
-        const databaseName = 'testIndexedDB2';
+        const databaseName = 'testIndexedDB3';
         storeBlobToIndexedDB(databaseName);
 
     </script>
