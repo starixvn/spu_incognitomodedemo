@@ -51,9 +51,6 @@
         detect();
 
 
-        addCode('test uc browser');
-
-
         function addCode(object) {
             document.getElementById("add_to_me")
                 .innerHTML +=
@@ -80,15 +77,15 @@
            addCode("error service worker " + e.message);
         }
 
-        console.log('---Try to store Blob object in indexedDB');
-        const databaseName = 'testIndexedDB';
+        // console.log('---Try to store Blob object in indexedDB');
+        // const databaseName = 'testIndexedDB';
 
-        isDatabaseExists(databaseName).then(exists => {
-           if (exists) {
-               window.indexedDB.deleteDatabase(databaseName);
-           }
-           storeBlobToIndexedDB(databaseName);
-        });
+        // isDatabaseExists(databaseName).then(exists => {
+        //    if (exists) {
+        //        window.indexedDB.deleteDatabase(databaseName);
+        //    }
+        //    storeBlobToIndexedDB(databaseName);
+        // });
 
 
 
@@ -158,15 +155,15 @@
             )
         }
 
-        async function isDatabaseExists(dbName) {
-            try {
-                const databases = await indexedDB.databases();
-                return databases.some(db => db.name === dbName);
-            } catch (e) {
-                addCode("error checkdatabase exist " + e.message);
-            }
+        // async function isDatabaseExists(dbName) {
+        //     try {
+        //         const databases = await indexedDB.databases();
+        //         return databases.some(db => db.name === dbName);
+        //     } catch (e) {
+        //         addCode("error checkdatabase exist " + e.message);
+        //     }
 
-        }
+        // }
 
 
     </script>
