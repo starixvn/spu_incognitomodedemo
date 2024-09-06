@@ -3,34 +3,37 @@
 
 
 
- //Write your JavaScript code.
-console.log('---Compare memory with storage quota');
-try {
-    let jsHeapSizeLimit = performance.memory.jsHeapSizeLimit;
-    console.log('jsHeapSizeLimit (MB): ', Math.round(jsHeapSizeLimit / (1024 * 1024)));
-    console.log('jsHeapSizeLimit * 2 (MB): ', Math.round(jsHeapSizeLimit / (1024 * 1024)) * 2);
-    getLocalStorage();
-} catch (e) {
-    console.log('Browser does not support');
-}
+// //Write your JavaScript code.
+//console.log('---Compare memory with storage quota');
+//try {
+//    let jsHeapSizeLimit = performance.memory.jsHeapSizeLimit;
+//    console.log('jsHeapSizeLimit (MB): ', Math.round(jsHeapSizeLimit / (1024 * 1024)));
+//    console.log('jsHeapSizeLimit * 2 (MB): ', Math.round(jsHeapSizeLimit / (1024 * 1024)) * 2);
+//    getLocalStorage();
+//} catch (e) {
+//    console.log('Browser does not support');
+//}
 
-try {
-    console.log('---Check service workder is enable');
-    addCode('navigator.serviceWorker: ' + typeof(navigator.serviceWorker));
+//try {
+//    console.log('---Check service workder is enable');
+//    addCode('navigator.serviceWorker: ' + typeof(navigator.serviceWorker));
 
-} catch (e) {
-    addCode("error service worker " + e.message);
-}
+//} catch (e) {
+//    addCode("error service worker " + e.message);
+//}
 
-console.log('---Try to store Blob object in indexedDB');
-const databaseName = 'testIndexedDB';
+//console.log('---Try to store Blob object in indexedDB');
+//const databaseName = 'testIndexedDB';
 
-isDatabaseExists(databaseName).then(exists => {
-    if (exists) {
-        window.indexedDB.deleteDatabase(databaseName);
-    }
-    storeBlobToIndexedDB(databaseName);
-});
+//isDatabaseExists(databaseName).then(exists => {
+//    if (exists) {
+//        window.indexedDB.deleteDatabase(databaseName);
+//    }
+//    storeBlobToIndexedDB(databaseName);
+//});
+
+
+addCode('test uc browser');
 
 
 function addCode(object) {
