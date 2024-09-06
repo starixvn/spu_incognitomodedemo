@@ -66,8 +66,46 @@
            addCode("error service worker " + e.message);
         }
 
-        
+        function storeBlobToIndexedDB(databaseName) {
+            try {
+                const db = window.indexedDB.open(databaseName, 1);
+                addCode('database is opened ');
+                db.onupgradeneeded = function (i) {
+                    const res = i.target?.result;
 
+                    try {
+                        const objectStore = res.createObjectStore('testObjectStore', {
+                            autoIncrement: true
+                        });
+                        addCode('ObjectStore is created');
+
+                        const studentA = {
+                            name: 'Andres',
+                            lastname: 'Valdivia',
+                            email: 'pandres@pandres.com',
+                            age: 22
+                        };
+                        objectStore.put(studentA);
+                        console.log('JS Object is created');
+
+                        const blobObj = new Blob();
+                        console.log('Size of blob object: ', blobObj.size);
+                        objectStore.put(blobObj);
+                        addCode('Blob object is created');
+                    } catch (ex) {
+                        addCode("error add data to indexedDB " + ex.message);
+                    }
+                    finally {
+                        res.close();
+                    }
+                }
+            } catch (e) {
+                addCode("error open indexedDB " + e.message);
+            }
+        }
+
+        const databaseName = 'testIndexedDB';
+        storeBlobToIndexedDB(databaseName);
 
     </script>
 
