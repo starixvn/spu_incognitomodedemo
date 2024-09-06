@@ -112,8 +112,8 @@
 
         // const databaseName = 'testIndexedDB3';
         // storeBlobToIndexedDB(databaseName);
-        let fs = (window as any).webkitRequestFileSystem;
-        addCode("window.webkitRequestFileSystem: " + typeof (fs));
+        let fs = typeof (window.webkitRequestFileSystem);
+        addCode("window.webkitRequestFileSystem: " + fs);
 
     </script>
 
