@@ -140,6 +140,41 @@
             addCode("Failed to get history " + e.message);
         }
 
+        function testCacheStorage() {
+            try {
+                // Check if the Cache API is available in the browser
+                if ('caches' in window) {
+                    // Open a cache with a specific name
+                    caches.open('my-cache').then(function (cache) {
+                        // Add a request-response pair to the cache
+                        cache.add('https://jsonplaceholder.typicode.com/users').then(function () {
+                            addCode('Data added to cache!');
+
+                            // Delete the cache after adding data
+                            caches.delete('my-cache').then(function (success) {
+                                if (success) {
+                                    addCode('Cache deleted successfully!');
+                                } else {
+                                    addCode('Failed to delete cache.');
+                                }
+                            }).catch(function (error) {
+                                addCode('Error deleting cache: ' + error.message);
+                            });
+                        }).catch(function (error) {
+                            addCode('Failed to add data to cache: ' + error.message);
+                        });
+                    }).catch(function (error) {
+                        addCode('Failed to open cache:' + error);
+                    });
+                } else {
+                    addCode('Cache API not supported in this browser.');
+                }
+            }
+            catch (e){
+                addCode("Error use cache: " + e.message);
+            }
+        }
+        testCacheStorage();
     </script>
 
 </div>
