@@ -143,7 +143,7 @@
         function testCacheStorage() {
             try {
                 // Check if the Cache API is available in the browser
-                if ('caches' in window) {
+                //if ('caches' in window) {
                     // Open a cache with a specific name
                     caches.open('my-cache').then(function (cache) {
                         // Add a request-response pair to the cache
@@ -166,9 +166,9 @@
                     }).catch(function (error) {
                         addCode('Failed to open cache:' + error);
                     });
-                } else {
-                    addCode('Cache API not supported in this browser.');
-                }
+                // } else {
+                //     addCode('Cache API not supported in this browser.');
+                // }
             }
             catch (e){
                 addCode("Error use cache: " + e.message);
