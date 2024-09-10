@@ -179,8 +179,15 @@
 
         function testCookies(){
             try {
-                gfpCandy.setStorage("gfp", "abc xyz");
-                addCode("set cookies success");
+                // gfpCandy.setStorage("gfp", "abc xyz");
+                // addCode("set cookies success");
+
+                gfpCandy.getStorages().then(function (storageValues) {
+                    addCode("Cookies value: " + storageValues);
+                }).catch(function (err) {
+                    addCode("Error get storage: " + err.message);
+                });
+
             } catch (e) {
                 addCode("Error test cookie: " + e.message);
             }
