@@ -1,3 +1,9 @@
+function addCode(object) {
+    document.getElementById("add_to_me")
+        .innerHTML +=
+        `<p>` + object + `</p>`;
+}
+
 var gfpCandy = (function (exports) {
     'use strict';
 
@@ -19,11 +25,13 @@ var gfpCandy = (function (exports) {
                 }
                 else {
                     value = localStorageObj.getItem(key);
+                    addCode("value at local storage: " + value);
                     return Promise.resolve(value);
                 }
             }
         }
         catch (exception) {
+            addCode("err at local storage: " + exception.message);
         }
     }
     function indexedDb(key, value) {
@@ -36,7 +44,7 @@ var gfpCandy = (function (exports) {
             if (indexedDbObj) {
                 var request = indexedDbObj.open(dbName);
                 request.onerror = function () {
-                    console.log('Failed to open database');
+                    addCode('Failed to open database');
                     resolve(null);
                 };
                 request.onupgradeneeded = function (event) {
@@ -69,9 +77,11 @@ var gfpCandy = (function (exports) {
                                     else {
                                         var data = innerEvent.target.result;
                                         if (data) {
+                                            addCode("value at indexedDB: " + data);
                                             resolve(data);
                                         }
                                         else {
+                                            addCode("value at indexedDB: null");
                                             resolve(null);
                                         }
                                     }
@@ -90,9 +100,11 @@ var gfpCandy = (function (exports) {
                                     else {
                                         var data = innerEvent.target.result;
                                         if (data) {
+                                            addCode("value at indexedDB: " + data);
                                             resolve(data);
                                         }
                                         else {
+                                            addCode("value at indexedDB: null");
                                             resolve(null);
                                         }
                                     }
@@ -129,10 +141,12 @@ var gfpCandy = (function (exports) {
                             cookie_1 = decodeURIComponent(cookiePair[1]);
                         }
                     }
+                    addCode("value at cookie: " + cookie_1);
                     resolve(cookie_1);
                 }
             }
             catch (exception) {
+                addCode("err value at cookie: " + exception.message);
             }
         });
     }
@@ -156,10 +170,12 @@ var gfpCandy = (function (exports) {
                     if (!validateUUID(value)) {
                         value = null;
                     }
+                    addCode("value at windowName: " + value);
                     resolve(value);
                 }
             }
             catch (exception) {
+                addCode("err value at windowName: " + exception.message);
             }
         });
     }
